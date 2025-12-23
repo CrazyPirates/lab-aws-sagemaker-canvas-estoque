@@ -40,10 +40,6 @@ Abaixo, podemos visualizar a dispersão entre os valores reais e os previstos. A
 
 #### Impacto das Colunas (Feature Importance)
 O SageMaker identificou quais características mais influenciam o preço do aluguel. As variáveis mais importantes foram:
-1. **Area (Tamanho):** 30.36%
-2. **Bathrooms (Banheiros):** 28.40%
-3. **City (Cidade):** 20.54%
-4. **Beds (Camas):** 9.14%
 
 ![Impacto das Colunas](/images/6.PNG)
 
@@ -51,10 +47,10 @@ O SageMaker identificou quais características mais influenciam o preço do alug
 
 Com o modelo treinado, foi realizado um teste de previsão ("Single Prediction") para validar o funcionamento. O modelo estimou um aluguel de **43.901,16** para o cenário testado.
 
-![Resultado da Previsão](single_prediction_results.png)
+![Resultado da Previsão](/images/single_prediction_results.png)
 
 ## 🚀 Conclusões e Insights
 
 1. **Fatores Determinantes:** O tamanho do imóvel (`area`) e a quantidade de banheiros (`bathrooms`) são os fatores mais decisivos para o valor do aluguel, somando quase 60% da influência no preço.
 2. **Performance:** O modelo obteve um **R² de 72%**, o que é um resultado sólido para um primeiro ciclo de treinamento, indicando que ele consegue generalizar bem a maioria dos casos.
-3. **Oportunidades de Melhoria:** O RMSE de 46k sugere que ainda há uma margem de erro considerável para imóveis de valores muito altos ou atípicos. Um "Standard Build" ou mais engenharia de recursos (feature engineering) poderiam refinar essa precisão.
+3. **Oportunidades de Melhoria:** O RMSE de 46k sugere que ainda há uma margem de erro considerável para imóveis de valores muito altos ou atípicos. Um Standard Build ou mais feature engineering poderiam refinar essa precisão.
