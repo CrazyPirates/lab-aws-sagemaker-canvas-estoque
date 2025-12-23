@@ -1,47 +1,60 @@
-# 📊 Previsão de Estoque Inteligente na AWS com [SageMaker Canvas](https://aws.amazon.com/pt/sagemaker/canvas/)
+# 🏠 Previsão de Aluguel de Casas na AWS com [SageMaker Canvas](https://aws.amazon.com/pt/sagemaker/canvas/)
 
-Bem-vindo ao desafio de projeto "Previsão de Estoque Inteligente na AWS com SageMaker Canvas. Neste Lab DIO, você aprenderá a usar o SageMaker Canvas para criar previsões de estoque baseadas em Machine Learning (ML). Siga os passos abaixo para completar o desafio!
+Este projeto foi desenvolvido como parte de um desafio prático da **DIO (Digital Innovation One)**, utilizando o **Amazon SageMaker Canvas** para criar um modelo de Machine Learning *No-Code*.
 
-## 📋 Pré-requisitos
+O objetivo foi prever o valor do aluguel (`rent`) com base em características de imóveis na Índia.
 
-Antes de começar, certifique-se de ter uma conta na AWS. Se precisar de ajuda para criar sua conta, confira nosso repositório [AWS Cloud Quickstart](https://github.com/digitalinnovationone/aws-cloud-quickstart).
+## 📋 Passo a Passo do Projeto
 
+### 1. Seleção do Dataset
 
-## 🎯 Objetivos Deste Desafio de Projeto (Lab)
+O dataset utilizado foi o `India House Rent Prediction`, carregado via upload local e pego no Kaggle. Este conjunto de dados contém informações sobre imóveis, como localização, número de quartos, banheiros, tamanho, etc.
 
-![image](https://github.com/digitalinnovationone/lab-aws-sagemaker-canvas-estoque/assets/730492/72f5c21f-5562-491e-aa42-2885a3184650)
+![Upload do Dataset](/images/1.PNG)
 
-- Dê um fork neste projeto e reescreva este `README.md`. Sinta-se à vontade para detalhar todo o processo de criação do seu Modelo de ML para uma "Previsão de Estoque Inteligente".
-- Para isso, siga o [passo a passo] descrito a seguir e evolua as suas habilidades em ML no-code com o Amazon SageMaker Canvas.
-- Ao concluir, envie a URL do seu repositório com a solução na plataforma da DIO.
+### 2. Construção e Treinamento (Build & Train)
 
+No SageMaker Canvas, o dataset foi importado e configurado para o treinamento.
+- **Target:** `rent` (Valor do aluguel).
+- **Configurações do Modelo:**
+    - Remoção de colunas irrelevantes e para evitar vazamento de dados (`house_type`, `area_rate`).
+    - Limpeza de dados: Remoção de linhas com `area` menor que 100 e remoção de duplicatas.
+    - O modelo utilizou uma estratégia de *Quick Build* para gerar previsões iniciais.
 
-## 🚀 Passo a Passo
+![Configuração do Modelo](/images/2.PNG)
 
-### 1. Selecionar Dataset
+### 3. Análise de Métricas (Analyze)
 
--   Navegue até a pasta `datasets` deste repositório. Esta pasta contém os datasets que você poderá escolher para treinar e testar seu modelo de ML. Sinta-se à vontade para gerar/enriquecer seus próprios datasets, quanto mais você se engajar, mais relevante esse projeto será em seu portfólio.
--   Escolha o dataset que você usará para treinar seu modelo de previsão de estoque.
--   Faça o upload do dataset no SageMaker Canvas.
+Após o treinamento, o modelo alcançou as seguintes métricas de performance:
 
-### 2. Construir/Treinar
+- **RMSE (Root Mean Square Error):** 46671.828 (Margem média de erro).
+- **R² (Coeficiente de Determinação):** 72.282% (O modelo explica cerca de 72% da variabilidade dos preços).
 
--   No SageMaker Canvas, importe o dataset que você selecionou.
--   Configure as variáveis de entrada e saída de acordo com os dados.
--   Inicie o treinamento do modelo. Isso pode levar algum tempo, dependendo do tamanho do dataset.
+![Status do Modelo](/images/3.PNG)
+![Métricas Avançadas](/images/5.PNG)
 
-### 3. Analisar
+#### Gráfico de Previsão vs. Real
+Abaixo, podemos visualizar a dispersão entre os valores reais e os previstos. A linha central representa a previsão ideal.
 
--   Após o treinamento, examine as métricas de performance do modelo.
--   Verifique as principais características que influenciam as previsões.
--   Faça ajustes no modelo se necessário e re-treine até obter um desempenho satisfatório.
+![Previsão vs Real](/images/4.PNG)
 
-### 4. Prever
+#### Impacto das Colunas (Feature Importance)
+O SageMaker identificou quais características mais influenciam o preço do aluguel. As variáveis mais importantes foram:
+1. **Area (Tamanho):** 30.36%
+2. **Bathrooms (Banheiros):** 28.40%
+3. **City (Cidade):** 20.54%
+4. **Beds (Camas):** 9.14%
 
--   Use o modelo treinado para fazer previsões de estoque.
--   Exporte os resultados e analise as previsões geradas.
--   Documente suas conclusões e qualquer insight obtido a partir das previsões.
+![Impacto das Colunas](/images/6.PNG)
 
-## 🤔 Dúvidas?
+### 4. Previsão (Predict)
 
-Esperamos que esta experiência tenha sido enriquecedora e que você tenha aprendido mais sobre Machine Learning aplicado a problemas reais. Se tiver alguma dúvida, não hesite em abrir uma issue neste repositório ou entrar em contato com a equipe da DIO.
+Com o modelo treinado, foi realizado um teste de previsão ("Single Prediction") para validar o funcionamento. O modelo estimou um aluguel de **43.901,16** para o cenário testado.
+
+![Resultado da Previsão](single_prediction_results.png)
+
+## 🚀 Conclusões e Insights
+
+1. **Fatores Determinantes:** O tamanho do imóvel (`area`) e a quantidade de banheiros (`bathrooms`) são os fatores mais decisivos para o valor do aluguel, somando quase 60% da influência no preço.
+2. **Performance:** O modelo obteve um **R² de 72%**, o que é um resultado sólido para um primeiro ciclo de treinamento, indicando que ele consegue generalizar bem a maioria dos casos.
+3. **Oportunidades de Melhoria:** O RMSE de 46k sugere que ainda há uma margem de erro considerável para imóveis de valores muito altos ou atípicos. Um "Standard Build" ou mais engenharia de recursos (feature engineering) poderiam refinar essa precisão.
